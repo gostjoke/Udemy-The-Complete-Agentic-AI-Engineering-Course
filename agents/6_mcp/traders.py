@@ -47,6 +47,19 @@ def get_model(model_name: str):
         return OpenAIChatCompletionsModel(model=model_name, openai_client=gemini_client)
     else:
         return model_name
+    
+def get_model(model_name: str):
+    match model_name:
+        case name if "/" in name:
+            return OpenAIChatCompletionsModel(model=model_name, openai_client=openrouter_client)
+        case name if "deepseek" in name:
+            return OpenAIChatCompletionsModel(model=model_name, openai_client=deepseek_client)
+        case name if "grok" in name:
+            return OpenAIChatCompletionsModel(model=model_name, openai_client=grok_client)
+        case name if "gemini" in name:
+            return OpenAIChatCompletionsModel(model=model_name, openai_client=gemini_client)
+        case _:
+            return model_name
 
 
 async def get_researcher(mcp_servers, model_name) -> Agent:
